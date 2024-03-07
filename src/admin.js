@@ -1,0 +1,1 @@
+export const rebuildTriggerPlugin = () => (config) => config
