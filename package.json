@@ -1,5 +1,5 @@
 {
-  "name": "rebuild-trigger",
+  "name": "plugin-rebuild-trigger",
   "version": "0.0.1",
   "homepage:": "https://payloadcms.com",
   "description": "Blank plugin template for Payload",
@@ -14,6 +14,7 @@
     "template"
   ],
   "scripts": {
+    "prepare": "npm run build",
     "build": "tsc",
     "test": "cd dev && yarn test",
     "lint": "eslint src",
