@@ -1,4 +1,4 @@
-import { PayloadRequest } from 'payload/types'
+import { PayloadRequest, TypeWithID } from 'payload/types'
 // import { Response } from 'express'
 import { Endpoint } from 'payload/config'
 import { GetUrlParams, Git, RebuildSettings } from '../types';
@@ -7,6 +7,7 @@ import { Forbidden } from 'payload/errors'
 import { githubEventTrigger } from './githubEventTrigger';
 import { giteaEventTrigger } from './giteaEventTrigger';
 
+type TConfig = TypeWithID & Record<string, unknown> & Record<string, RebuildSettings>
 
 const getRepositoryPath = (link: string) => {
 	const url = new URL(link)
@@ -59,7 +60,7 @@ const RebuildTriggerEndpoint: Endpoint = {
 		// const configs = await getRebuildTriggerConfig();
 		const configs = await payload.findGlobal({
 			slug: 'rebuild'
-		}) as {settings: RebuildSettings}
+		}) as TConfig
 
 		const {settings: {token, gitType, link}} = configs
 
