@@ -1,11 +1,12 @@
 import { PayloadRequest } from 'payload/types'
 // import { Response } from 'express'
 import { Endpoint } from 'payload/config'
-import { GetUrlParams, Git } from '../types';
+import { GetUrlParams, Git, RebuildSettings } from '../types';
 
 import { Forbidden } from 'payload/errors'
 import { githubEventTrigger } from './githubEventTrigger';
 import { giteaEventTrigger } from './giteaEventTrigger';
+
 
 const getRepositoryPath = (link: string) => {
 	const url = new URL(link)
@@ -28,7 +29,7 @@ const getTriggerUrl = ({type, link}: GetUrlParams) => {
 	}
 }
 
-const triggerBuild = async ({type, token, link, env = 'prod'}: {type: Git,token: string, link: string, env: string}) => {
+const triggerBuild = async ({type, token, link, env = 'prod'}: {type: Git,token: string, link: string, env: string }) => {
 	if (type === 'github') {
 		const repository = getRepositoryPath(link)
 		return githubEventTrigger({token, repository, env})
@@ -52,13 +53,13 @@ const RebuildTriggerEndpoint: Endpoint = {
 			user,
 			query
 		  } = req
-		const {env} = query
+		const env = query.env as string
         //get env from qury params to rebuild stage prod
 
 		// const configs = await getRebuildTriggerConfig();
-		const configs = await req.payload.findGlobal({
+		const configs = await payload.findGlobal({
 			slug: 'rebuild'
-		})
+		}) as {settings: RebuildSettings}
 
 		const {settings: {token, gitType, link}} = configs
 
