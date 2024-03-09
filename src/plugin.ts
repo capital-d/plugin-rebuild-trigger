@@ -38,10 +38,10 @@ export const rebuildTriggerPlugin =
         components: {
           ...(config.admin?.components || {}),
           // Add additional admin components here
-          afterDashboard: [
-            ...(config.admin?.components?.afterDashboard || []),
-            AfterDashboard,
-          ],
+          // afterDashboard: [
+          //   ...(config.admin?.components?.afterDashboard || []),
+          //   AfterDashboard,
+          // ],
         },
       }
 

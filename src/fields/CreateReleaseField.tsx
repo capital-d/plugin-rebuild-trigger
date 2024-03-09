@@ -18,7 +18,7 @@ type MetaTitleProps = TextFieldType & {
 }
 
 export const MetaTitle: React.FC<MetaTitleProps> = (props) => {
-  const { name, label = 'Rebuild', path, required } = props || {}
+  const { name, label = 'Release', path, required } = props || {}
 
 
   const field: FieldType<string> = useField({
@@ -27,7 +27,7 @@ export const MetaTitle: React.FC<MetaTitleProps> = (props) => {
     path,
   } as Options)
 
-  const slug = 'rebuild'
+  const slug = 'create-release'
 
   const locale = useLocale()
   const [fields] = useAllFormFields() 
@@ -47,9 +47,9 @@ export const MetaTitle: React.FC<MetaTitleProps> = (props) => {
 
   const { setValue, showError, value, errorMessage, } = field
 
-  const  triggerRebuild  = async () => {
+  const  triggerRelease  = async () => {
 
-    const url = `${serverURL}${api}/globals/${slug}/rebuild-static?env=${name}`
+    const url = `${serverURL}${api}/globals/${slug}/create-release?env=${name}`
 
     const request = await fetch(url)
     const response = await request.json()
@@ -65,33 +65,12 @@ export const MetaTitle: React.FC<MetaTitleProps> = (props) => {
     >
       <div
         style={{
-          marginBottom: '5px',
-          position: 'relative',
-        }}
-      >
-        <div
-          style={{
-            color: '#9A9A9A',
-          }}
-        >
-          <a
-            href={link}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Reposipory link
-          </a>
-          .
-        </div>
-      </div>
-      <div
-        style={{
           marginBottom: '10px',
           position: 'relative',
         }}
       >
               <Button
-              onClick={triggerRebuild}
+              onClick={triggerRelease}
               disabled={false} >
                 {typeof label === 'string' ? label : name}
               </Button>
@@ -101,4 +80,4 @@ export const MetaTitle: React.FC<MetaTitleProps> = (props) => {
   )
 }
 
-export const RebuildTriggerField = (props: MetaTitleProps) => <MetaTitle {...props} />
+export const CreateReleaseField = (props: MetaTitleProps) => <MetaTitle {...props} />

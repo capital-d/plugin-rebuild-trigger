@@ -1,9 +1,11 @@
 import { GlobalConfig } from "payload/dist/globals/config/types";
 // import { getPluginConfig } from "../plugin";
 import ToggleBotEnabled from "../hooks/StartBot";
-import RebuildTriggerEndpoint from "../endpoints/RebuildTriggerEndpoint";
+import rebuildTriggerEndpoint from "../endpoints/rebuildTriggerEndpoint";
+import createReleaseEndpoint from "../endpoints/createRelease";
 import PasswordField from "../fields/PasswordField";
 import { RebuildTriggerField } from "../fields/RebuildTriggerField";
+import { CreateReleaseField } from "../fields/CreateReleaseField";
 
 export type PluginRebuildConfig = {
   enabled: boolean;
@@ -26,18 +28,19 @@ export function createRebuildTriggerGlobalConfig(
     // slug: getRebuildTriggerSlug(),
     slug: slug ?? 'rebuild',
     endpoints: [
-      RebuildTriggerEndpoint,
+      rebuildTriggerEndpoint,
+      createReleaseEndpoint
     ],
     fields: [
-      {
-        name: "enabled",
-        type: "checkbox",
-        required: true,
-        defaultValue: true,
-        hooks: {
-          afterChange: [ToggleBotEnabled],
-        },
-      },
+      // {
+      //   name: "enabled",
+      //   type: "checkbox",
+      //   required: true,
+      //   defaultValue: true,
+      //   hooks: {
+      //     afterChange: [ToggleBotEnabled],
+      //   },
+      // },
       {
         type: 'tabs',
         tabs: [
@@ -54,6 +57,26 @@ export function createRebuildTriggerGlobalConfig(
                   },
                 },
                 label: 'Rebuild prod',
+              },
+              {
+                name: 'dev',
+                type: 'ui',
+                admin: {
+                  components: {
+                    Field: (props) => RebuildTriggerField({ ...props }),
+                  },
+                },
+                label: 'Rebuild test',
+              },
+              {
+                name: 'release',
+                type: 'ui',
+                admin: {
+                  components: {
+                    Field: (props) => CreateReleaseField({ ...props }),
+                  },
+                },
+                label: 'Release',
               },
             ]
           },
