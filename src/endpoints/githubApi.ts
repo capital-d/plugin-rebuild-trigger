@@ -8,7 +8,7 @@ export const eventTrigger = async ({repository, token, env = 'prod'}: {repositor
             Authorization: `token ${token}`,
           },
           body: JSON.stringify({
-            event_type: `rebuild_static_${env}`,
+            event_type: `rebuild_front_${env}`,
           }),
         }
       )

@@ -10,7 +10,7 @@ export const giteaEventTrigger = async ({host, repository, token, issue = '1', e
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            body: `rebuild_static_${env}`,
+            body: `rebuild_front_${env}`,
           }),
         }
       )

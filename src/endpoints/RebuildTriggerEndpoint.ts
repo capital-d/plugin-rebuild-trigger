@@ -72,12 +72,29 @@ const rebuildTriggerEndpoint: Endpoint = {
 			  throw new Forbidden()
 			}
 		
-			const request = await triggerBuild({type: gitType, token, link, env})
-			const response = await request?.json()
+			// const request = await triggerBuild({type: gitType, token, link, env})
+			// const response = request?.json()
+
+			const request = triggerBuild({type: gitType, token, link, env})
+			const resolve = await request
+			const { status = 200, statusText, ok } = resolve ?? {}
+
+			const response = request
+			.then(res => res?.json())
+			.catch(error => {
+				if(!ok) {
+					throw new Error(error)
+				}
+				return {}
+			})
 		
-			const { status = 200 } = request ?? {}
+			if (!ok) {
+                throw `Server error: [${status}] [${statusText}]`;
+            }
+
+			const body = await response
 		
-			res.status(status).json(response)
+			res.status(200).json(body || {})
 		  } catch (error: unknown) {
 			const message = `An error has occurred in the : '${error}'`
 			payload.logger.error(message)
